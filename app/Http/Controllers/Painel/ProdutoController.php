@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Painel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Painel\Product;
+use App\Http\Requests\Painel\ProductFormRequest;
 
 class ProdutoController extends Controller
 {
@@ -39,20 +40,63 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        //
+    	$titulo = 'Cadastrar Novo Produto';
+    	$categorias = ['eletronicos', 'moveis', 'limpeza', 'banho'];
+    	return view('painel.products.create', compact('titulo', 'categorias'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductFormRequest $request)//Mudei o tipo de parâmetro de Request para ProductFormRequest.
     {
-        //
+    	// Pega todos os dados do formulário.
+    	//dd($request->all());
+    	
+    	// Pega campos específicos do formulário.
+    	//dd($request->only(['name', 'description']));
+    	
+    	// Pega todos os campos, exceto ...
+    	//dd($request->except(['_token']));
+    	
+    	// Campo específico
+    	//dd($request->input('name'));
+    	
+    	$dataForm = $request->all();
+    	
+    	//Caso campo active não estiver sido selecionado.
+    	$dataForm['active'] = (isset($dataForm['active']) && !is_null($dataForm['active'])) ? 1 : 0;
+    	
+    	//Validação dos dados. O ideal é que a validação fique na Model
+    	//$this->validate($request, $this->product->rules, $this->product->messages);
+    	
+    	//Outra forma de validar os dados do formulário.
+    	//$validate = Validator::make($dataForm, $this->product->rules);
+    	/*
+    	$validate = validator($dataForm, $this->product->rules, $this->product->messages);
+    	
+    	if ($validate->fails()) {
+    		return redirect()->back()->withErrors($validate)->withInput();
+    	}*/
+    	//withErros($args) retorna os erros.
+    	//withInput() retorna os dados preenchidos.
+    	
+    	
+    	
+    	
+    	$insert = $this->product->create($dataForm);
+    	
+    	if ($insert) {
+    		return redirect()->route('produtos.index');
+    	} else {
+    		return redirect()->back();//Volta de onde veio
+    	}
+    	
     }
-
+    
     /**
      * Display the specified resource.
      *

@@ -8,10 +8,8 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
         <link href="https://fonts.googleapis.com/css?family=Mogra" rel="stylesheet">
         
-        <style>
-		*{font-family:Arial;font-size:14px;}
-		body{background-color:#f6f6f6;}
-		</style>
+        <link rel="stylesheet" href="{{ url('assets/painel/css/style.css') }}">{{-- Pega dentro da pasta 'public' --}}
+        
     </head>
     <body>
         <div class="container">
