@@ -24,7 +24,9 @@
 	    	<td>{{ $product->name }}</td>
 	    	<td>{{ $product->description }}</td>
 	    	<td>
-	    		<a href="#" class="action edit"><span class="glyphicon glyphicon-pencil"></span></a>
+	    		<a href="{{route('produtos.edit', $product->id)}}" class="action edit">
+	    			<span class="glyphicon glyphicon-pencil"></span>
+	    		</a>
 	    		<a href="#" class="action delete"><span class="glyphicon glyphicon-trash"></span></a>
 	    	</td>
 	  	</tr>
