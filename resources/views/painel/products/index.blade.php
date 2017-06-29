@@ -27,13 +27,14 @@
 	    		<a href="{{route('produtos.edit', $product->id)}}" class="action edit">
 	    			<span class="glyphicon glyphicon-pencil"></span>
 	    		</a>
-	    		<a href="#" class="action delete"><span class="glyphicon glyphicon-trash"></span></a>
+	    		<a href="{{route('produtos.show', $product->id)}}" class="action delete"><span class="glyphicon glyphicon-eye-open"></span></a>
 	    	</td>
 	  	</tr>
 	  	@endforeach
-	  	
 	</tbody>
 	</table>
+	{{-- Para fazer páginação --}}
+	{!! $products->links() !!}
 </div>
 
 @endsection

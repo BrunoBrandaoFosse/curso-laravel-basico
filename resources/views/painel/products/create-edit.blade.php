@@ -3,7 +3,9 @@
 
 @section('conteudo')
 
-<h1>Cadastrar Produto</h1>
+<h1>
+<a href="{{route('produtos.index')}}"><span class="glyphicon glyphicon-fast-backward"></span>Voltar</a>
+@if(isset($product))Editar Produto: {{$product->name}}@else Cadastrar Produto @endif</h1>
 
 {{-- 'errors' é do próprio Laravel --}}
 @if(isset($errors) && count($errors) > 0)
@@ -15,12 +17,11 @@
 @endif
 
 @if(isset($product))
-	<form class="form" method="post" action="{{ route('produtos.update', $product->id) }}">
-	{!! method_field('PUT')  !!}
+	{{-- Com model eu consigo usar um modelo. Assim eu recupero os valores de um produto. --}}
+	{!! Form::model($product, ['route' => ['produtos.update', $product->id], 'class' => 'form', 'method' => 'put']) !!}
 @else
-	<form class="form" method="post" action="{{ route('produtos.store') }}">
+	{!! Form::open(['route' => 'produtos.store', 'class' => 'form']) !!}
 @endif
-	{!! csrf_field() !!}
 	<div class="form-group">
 		{!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nome:']) !!}
 	</div>
@@ -45,7 +46,7 @@
 	</div>
 	
 	{!! Form::submit('Enviar', ['class' => 'btn btn-primary']) !!}
-	
-</form>
+
+{!! Form::close() !!}
 
 @endsection

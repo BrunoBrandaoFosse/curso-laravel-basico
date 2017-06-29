@@ -29,7 +29,11 @@ class ProdutoController extends Controller
     {
     	$titulo = 'Listagem dos Produtos';
     	//Pegar todos os dados da tabela
-    	$products = $this->product->all();
+    	//$products = $this->product->all();
+    	
+    	//Fazer Páginação
+    	$products = $this->product->paginate(3);//3 é o total de registro por página.
+    	
     	return view('painel.products.index', compact('products', 'titulo'));
     }
 
@@ -105,9 +109,13 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = $this->product->find($id);
+        
+        $titulo = "Produto: {$product->name}";
+        
+        return view('painel.products.show', ['product'=>$product, 'titulo'=>$titulo]);
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -156,7 +164,14 @@ class ProdutoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = $this->product->find($id);
+        
+        $del = $product->delete();
+        
+        if ($del)
+        	return redirect()->route('produtos.index');
+        else
+        	return redirect()->route('produtos.show', $product->id)->with(['errors'=>'Falha ao Deletar']);
     }
     
     /**
